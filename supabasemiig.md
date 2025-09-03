@@ -44,29 +44,4 @@ supabase link --project-ref smpdbqzvgwgwdyxwvrzz
 
 Note: A warning was shown about the local database version. This was fixed by editing the supabase/config.toml file and adding [db] \n major_version = 15.
 
-Step 3: Generating the Migration File (and Troubleshooting)
-The goal was to create a local SQL file that mirrored the remote database's schema. This involved a few troubleshooting steps.
-
-First Attempt (Error - Docker Missing): The initial attempt failed because Docker Desktop was not running or installed. The CLI requires Docker to create a temporary database for comparison.
-
-supabase db remote commit
-# Error: failed to inspect docker image... Docker Desktop is a prerequisite...
-
-Solution: Install and start Docker Desktop for Windows.
-
-Second Attempt (Error - Migration Conflict): After starting Docker, a new error appeared. A previous failed command had created an empty or incomplete migration file locally, which now conflicted with the remote history.
-
-supabase db remote commit
-# Error: The remote database's migration history does not match local files...
-
-Solution: Delete the conflicting file from the supabase/migrations directory, leaving the folder empty.
-
-Step 4: The Final Solution - Using db pull
-With a clean local environment and Docker running, the final step was to use the correct, up-to-date command.
-
-Pull the Remote Schema: The supabase db pull command successfully connected to the remote database, inspected its schema, and generated a new, complete migration file locally.
-
-supabase db pull
-# Success: Dumping schema from remote database...
-
-This final command created a file in supabase/migrations containing all the CREATE TABLE, ALTER TABLE, and other SQL statements needed to replicate the remote database structure.
+Step 3: Generating the Migration File (and Troubleshooting)bharat-ayush-backend
